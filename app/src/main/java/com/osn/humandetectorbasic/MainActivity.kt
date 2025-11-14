@@ -1,13 +1,13 @@
 package com.osn.humandetectorbasic
 
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
@@ -29,10 +29,10 @@ class MainActivity : AppCompatActivity() {
         resultTextView = findViewById(R.id.resultTextView)
 
         // Load all images from test_images folder
-        imagePaths = loadImagesFromAssets("test_images")
+        imagePaths = loadImagesFromAssets()
         
         if (imagePaths.isEmpty()) {
-            resultTextView.text = "No images found in test_images folder"
+            resultTextView.text = getString(R.string.no_images_found)
             nextButton.isEnabled = false
             return
         }
@@ -55,7 +55,8 @@ class MainActivity : AppCompatActivity() {
         processImage()
     }
 
-    private fun loadImagesFromAssets(folderPath: String): List<String> {
+    private fun loadImagesFromAssets(): List<String> {
+        val folderPath = "test_images"
         return try {
             val imageFiles = assets.list(folderPath)?.filter { fileName ->
                 fileName.lowercase().endsWith(".png") || 
@@ -71,7 +72,7 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun updateButtonText() {
-        nextButton.text = "Next (${currentImageIndex + 1}/${imagePaths.size})"
+        nextButton.text = getString(R.string.next_button_text, currentImageIndex + 1, imagePaths.size)
     }
 
     private fun processImage() {
@@ -85,26 +86,26 @@ class MainActivity : AppCompatActivity() {
             val humanDetected = objectDetector.detect(bitmap)
             
             val resultText = if (humanDetected) {
-                "✓ Human DETECTED\n($imageName)"
+                getString(R.string.human_detected, imageName)
             } else {
-                "✗ No Human Detected\n($imageName)"
+                getString(R.string.no_human_detected, imageName)
             }
             
             if (humanDetected) {
                 resultTextView.text = resultText
-                resultTextView.setTextColor(Color.parseColor("#4CAF50")) // Green
-                resultTextView.setBackgroundColor(Color.parseColor("#E8F5E9")) // Light green
+                resultTextView.setTextColor(ContextCompat.getColor(this, R.color.green))
+                resultTextView.setBackgroundColor(ContextCompat.getColor(this, R.color.light_green))
             } else {
                 resultTextView.text = resultText
-                resultTextView.setTextColor(Color.parseColor("#F44336")) // Red
-                resultTextView.setBackgroundColor(Color.parseColor("#FFEBEE")) // Light red
+                resultTextView.setTextColor(ContextCompat.getColor(this, R.color.red))
+                resultTextView.setBackgroundColor(ContextCompat.getColor(this, R.color.light_red))
             }
             
             updateButtonText()
             
         } catch (e: IOException) {
             Log.e("MainActivity", "Error loading image: $currentImagePath", e)
-            resultTextView.text = "Error loading image: $imageName"
+            resultTextView.text = getString(R.string.error_loading_image, imageName)
         }
     }
 }

@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HumanDetectorBasic">
         <activity
-            android:name=".MainActivity"
+            android:name="com.osn.humandetectorbasic.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

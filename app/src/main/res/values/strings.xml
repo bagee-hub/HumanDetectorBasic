@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">HumanDetectorBasic</string>
+    <string name="no_images_found">No images found in test_images folder</string>
+    <string name="next_button_text">Next (%1$d/%2$d)</string>
+    <string name="human_detected">✓ Human DETECTED\n(%1$s)</string>
+    <string name="no_human_detected">✗ No Human Detected\n(%1$s)</string>
+    <string name="error_loading_image">Error loading image: %1$s</string>
 </resources>
